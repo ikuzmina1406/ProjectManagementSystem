@@ -1,4 +1,4 @@
-package ua.GoIt.Config;
+package ua.GoIt.config;
 
 import java.io.FileInputStream;
 import java.io.IOException;

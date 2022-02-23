@@ -1,4 +1,4 @@
-package ua.GoIt.Config;
+package ua.GoIt.config;
 
 import org.postgresql.ds.PGSimpleDataSource;
 

@@ -2,7 +2,6 @@ package ua.GoIt.console.commands;
 
 import ua.GoIt.dao.DevelopersDao;
 import ua.GoIt.console.Command;
-import ua.GoIt.dao.DevelopersDao;
 import ua.GoIt.model.Developers;
 
 import java.math.BigDecimal;
