@@ -3,6 +3,7 @@ package ua.GoIt.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.GoIt.model.Customers;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -32,9 +33,9 @@ public class CustomersDao extends AbstractDao<Customers> {
             ps.setString(1, customers.getName());
             ps.setString(2, customers.getState_code());
             ps.setString(3, customers.getCountry());
-            ps.setDate(5, customers.getBirthday());
-            ps.setString(6, customers.getSex());
-            ps.setString(7, customers.getInfo());
+            ps.setDate(4, customers.getBirthday());
+            ps.setString(5, customers.getSex());
+            ps.setString(6, customers.getInfo());
 
         });
         LOGGER.info(" created records ");
