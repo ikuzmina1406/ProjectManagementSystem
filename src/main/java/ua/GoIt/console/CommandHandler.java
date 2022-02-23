@@ -24,18 +24,17 @@ public class CommandHandler {
     public void handleCommand(String params) {
         int firstSpace = params.indexOf(" ");
         if (firstSpace > -1) {
-            ua.GoIt.console.Command command = commandMap.get(params.substring(0, firstSpace));
+            Command command = commandMap
+                    .get(params.substring(0, firstSpace));
             if (command != null) {
                 command.handle(params.substring(firstSpace + 1));
             } else {
-                System.out.println("Unknown command ");
+                System.out.println("Unknown command");
             }
-
-            } else {
-                System.out.println("Unknown command ");
-            }
-            System.out.println(params);
+        } else {
+            System.out.println("Unknown command");
         }
+    }
     }
 
 

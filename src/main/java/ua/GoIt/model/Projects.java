@@ -4,6 +4,7 @@ package ua.GoIt.model;
 import ua.GoIt.dao.Identity;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 public class Projects implements Identity {
     private Long id;
@@ -11,6 +12,17 @@ public class Projects implements Identity {
     private  String info;
     private int status;
     private BigDecimal cost;
+
+    private Date dateCreation;
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
 
     public long getId() {
         return id;
@@ -60,6 +72,8 @@ public class Projects implements Identity {
                 ", info='" + info + '\'' +
                 ", status=" + status +
                 ", cost=" + cost +
+                ", dateCreation=" + dateCreation +
                 '}';
     }
 }
+

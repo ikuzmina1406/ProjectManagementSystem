@@ -2,10 +2,9 @@ package ua.GoIt.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.GoIt.model.Developers;
 import ua.GoIt.model.Projects;
 
-import java.math.BigDecimal;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -26,12 +25,13 @@ public class ProjectsDao extends AbstractDao<Projects>{
         projects.setInfo(resultSet.getString("info"));
         projects.setStatus(resultSet.getInt("status"));
         projects.setCost(resultSet.getBigDecimal("cost"));
+        projects.setDateCreation(resultSet.getDate("date_creation"));
         return projects;
     }
 
     @Override
     public Optional<Projects> create(Projects projects) {
-        String sql = "insert into projects(name,info,status,cost) values (?,?,?,?)";
+        String sql = "insert into projects(name,info,status,cost,date_creation) values (?,?,?,?,?)";
 
 
         PgUtill.executeWithPrepareStatement(sql, ps -> {
@@ -39,6 +39,7 @@ public class ProjectsDao extends AbstractDao<Projects>{
             ps.setString(2, projects.getInfo());
             ps.setInt(3, projects.getStatus());
             ps.setBigDecimal(4, projects.getCost());
+            ps.setDate(5, projects.getDateCreation());
         });
         LOGGER.info(" created records ");
         return Optional.empty();
