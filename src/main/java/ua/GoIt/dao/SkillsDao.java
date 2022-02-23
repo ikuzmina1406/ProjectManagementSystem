@@ -32,7 +32,7 @@ public class SkillsDao extends AbstractDao<Skills>{
         String sql = "insert into skills (branch,level) values (?,?)";
 
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, skills.getBranch());
             ps.setString(2, skills.getLevel());
         });
@@ -44,7 +44,7 @@ public class SkillsDao extends AbstractDao<Skills>{
     public void update(Skills skills) {
         String sql = "update skills set level = ? where id = ?";
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, skills.getLevel());
 
 

@@ -34,7 +34,7 @@ public class ProjectsDao extends AbstractDao<Projects>{
         String sql = "insert into projects(name,info,status,cost,date_creation) values (?,?,?,?,?)";
 
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, projects.getName());
             ps.setString(2, projects.getInfo());
             ps.setInt(3, projects.getStatus());
@@ -51,7 +51,7 @@ public class ProjectsDao extends AbstractDao<Projects>{
     public void update(Projects projects) {
         String sql = "update projects set name = ? where id = ?";
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, projects.getName());
 
 

@@ -19,7 +19,7 @@ abstract public class AbstractDao <T  extends Identity> implements Dao<T> {
     public void delete(T entity) {
         String sql = String.format("delete from %s where id = ?", getTableName());
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setLong(1, entity.getId());
 
         });
@@ -31,7 +31,7 @@ abstract public class AbstractDao <T  extends Identity> implements Dao<T> {
         String query = String.format("select * from %s where id = ?", getTableName());
 
         try {
-            ResultSet resultSet = PgUtill.getWithPrepareStatement(query, ps -> {
+            ResultSet resultSet = PgUtil.getWithPrepareStatement(query, ps -> {
                 ps.setLong(1, id);
             });
             if (resultSet.next()) {
@@ -51,7 +51,7 @@ abstract public class AbstractDao <T  extends Identity> implements Dao<T> {
         List<T> resultList = new ArrayList<>();
         String query = String.format("select * from %s", getTableName());
         try {
-            ResultSet resultSet = PgUtill.getWithPrepareStatement(query, ps -> {
+            ResultSet resultSet = PgUtil.getWithPrepareStatement(query, ps -> {
             });
             while (resultSet.next()) {
 

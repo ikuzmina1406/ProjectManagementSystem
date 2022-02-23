@@ -4,12 +4,11 @@ package ua.GoIt.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.GoIt.config.DataSourceHolder;
-import ua.GoIt.exeptions.SqlReturnedItemException;
+//import ua.GoIt.exceptions.SqlReturnedItemException;
 
 import java.sql.*;
-import java.util.Optional;
 
-//public class PgUtill {
+//public class PgUtil {
 //
 //    private static final Logger LOGGER = LogManager.getLogger(PgUtill.class);
 //
@@ -61,9 +60,9 @@ import java.util.Optional;
 
 //
 //
-public class PgUtill {
+public class PgUtil {
 
-    private static final Logger LOGGER = LogManager.getLogger(PgUtill.class);
+    private static final Logger LOGGER = LogManager.getLogger(PgUtil.class);
 
     public static int executeWithPrepareStatement(String sql, ParamSetter psCall) {
 
@@ -85,23 +84,23 @@ public class PgUtill {
         return  0;
     }
 
-    public static Optional<Long> executePreparedStatementAndGetId(String sql, ParamSetter psCall) throws SqlReturnedItemException {
-        try (Connection connection = DataSourceHolder.getDataSource().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            psCall.set(ps);
-            ps.executeUpdate();
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return Optional.of(generatedKeys.getLong(1));
-                } else {
-                    throw new SqlReturnedItemException("Execution failed, no one entity was returned");
-                }
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Exception while trying do SQL request", e);
-        }
-        return Optional.empty();
-    }
+//    public static Optional<Long> executePreparedStatementAndGetId(String sql, ParamSetter psCall) throws SqlReturnedItemException {
+//        try (Connection connection = DataSourceHolder.getDataSource().getConnection();
+//             PreparedStatement ps = connection.prepareStatement(sql)) {
+//            psCall.set(ps);
+//            ps.executeUpdate();
+//            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+//                if (generatedKeys.next()) {
+//                    return Optional.of(generatedKeys.getLong(1));
+//                } else {
+//                    throw new SqlReturnedItemException("Execution failed, no one entity was returned");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            LOGGER.error("Exception while trying do SQL request", e);
+//        }
+//        return Optional.empty();
+//    }
     public static ResultSet getWithPrepareStatement(String sql, ParamSetter psCall) throws SQLException {
         Connection connection;
         connection = DataSourceHolder.getDataSource().getConnection();

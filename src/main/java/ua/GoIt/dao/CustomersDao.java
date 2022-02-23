@@ -29,7 +29,7 @@ public class CustomersDao extends AbstractDao<Customers> {
         String sql = "insert into customers (name,state_code, country, birthday, sex,info) values (?,?,?,?,?,?)";
 
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, customers.getName());
             ps.setString(2, customers.getState_code());
             ps.setString(3, customers.getCountry());
@@ -46,7 +46,7 @@ public class CustomersDao extends AbstractDao<Customers> {
     public void update(Customers customers) {
         String sql = "update customers set first_name = ? where id = ?";
 
-        PgUtill.executeWithPrepareStatement(sql, ps -> {
+        PgUtil.executeWithPrepareStatement(sql, ps -> {
             ps.setString(1, customers.getName());
 
             ps.setLong(2, customers.getId());
