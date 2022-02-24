@@ -1,49 +1,41 @@
 package ua.GoIt.console.commands;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.GoIt.dao.SkillsDao;
 import ua.GoIt.console.Command;
-import ua.GoIt.model.Developers;
-import ua.GoIt.model.Projects;
 import ua.GoIt.model.Skills;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SkillsCommand implements Command {
+    private static  final Logger LOGGER = LogManager.getLogger(SkillsCommand.class);
     SkillsDao skillsDao = new SkillsDao();
 
     @Override
-    public void handle(String params) {
+    public void handle(String params, Consumer<Command> setActive) {
         String[] paramsArray = params.split(" ");
-        String subParams = String.join(" ", params.replace(paramsArray[0] + " ", ""));
+        String subParams = String.join(" ", params.replace(paramsArray[0]+ " ", ""));
         switch (paramsArray[0]) {
-            case "create":
-                create(subParams);
-                break;
-            case "get": get(subParams);
-                break;
-            case "getAll": getAll();
-                break;
-            case "delete": delete(subParams);
-                break;
-            case "update": update(subParams);
-                break;
-
+            case "create": create(subParams);break;
+            case "get": get(subParams);break;
+            case "getAll": getAll();break;
+            case "delete": delete(subParams);break;
+            case "update": update(subParams);break;
         }
     }
 
-    private void delete(String params) { //skills delete id (the command: "skills delete 99")
-        String [] paramsArray = params.split(" ");
-        Optional<Skills> skills =  skillsDao.get(Long.parseLong(paramsArray[0]));
-        if (skills.isPresent()){
-            skillsDao.delete(skills.get());
-        }else{
-            System.out.println("skill with id " + paramsArray[0] + " is not found");
-        }
+    @Override
+    public void printActiveMenu() {
+        LOGGER.info("--------Category menu----------"+"\n" + "--------Command menu----------"+"\n" +"create--get id--getAll--delete--update");
     }
 
-    private void get(String params) { // skills get id
-        String [] paramsArray = params.split(" ");
+
+
+    private void get(String subParams) { // skills get by id (the command: " get 96")
+        String [] paramsArray = subParams.split(" ");
         Optional<Skills> skills =  skillsDao.get(Long.parseLong(paramsArray[0]));
         if (skills.isPresent()){
             System.out.println(skills.get());
@@ -61,8 +53,19 @@ public class SkillsCommand implements Command {
             System.out.println(skills);
         }
     }
-    private void update(String params) {// skills update ID BRANCH LEVEL (the command: "skills update 99 SQL intern  ")
-        String [] paramsArray = params.split(" ");
+
+
+    private void create(String subParams) { //skills create (the command : skills create BRANCH LEVEL (" create SQL Junior "))
+        String [] paramsArray = subParams.split(" ");
+        Skills skills = new Skills();
+        skills.setBranch(paramsArray[0]);
+        skills.setLevel(paramsArray[1]);
+        skillsDao.create(skills);
+
+
+    }
+    private void update(String subParams) {// skills update ID BRANCH LEVEL (the command: " update 100 SQL trainee  ")
+        String [] paramsArray = subParams.split(" ");
         Optional<Skills> optionalSkills =  skillsDao.get(Long.parseLong(paramsArray[0]));
         if (optionalSkills.isPresent()){
             Skills skills = optionalSkills.get();
@@ -74,14 +77,13 @@ public class SkillsCommand implements Command {
             System.out.println("skills with id " + paramsArray[0] + " is not found");
         }
     }
-
-    private void create(String subParams) { //skills create (the command : skills create BRANCH LEVEL (" skills create SQL Junior "))
+    private void delete(String subParams) { //skills delete by id (the command: "delete 100")
         String [] paramsArray = subParams.split(" ");
-        Skills skills = new Skills();
-        skills.setBranch(paramsArray[0]);
-        skills.setLevel(paramsArray[1]);
-        skillsDao.create(skills);
-
-
+        Optional<Skills> skills =  skillsDao.get(Long.parseLong(paramsArray[0]));
+        if (skills.isPresent()){
+            skillsDao.delete(skills.get());
+        }else{
+            System.out.println("skill with id " + paramsArray[0] + " is not found");
+        }
     }
 }

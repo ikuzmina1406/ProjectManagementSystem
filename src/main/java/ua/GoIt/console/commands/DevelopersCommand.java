@@ -1,5 +1,7 @@
 package ua.GoIt.console.commands;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.GoIt.dao.DevelopersDao;
 import ua.GoIt.console.Command;
 import ua.GoIt.model.Developers;
@@ -8,24 +10,30 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class DevelopersCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(DevelopersCommand.class);
     private final DevelopersDao developersDao = new DevelopersDao();
     @Override
-    public void handle(String params) {
-        String [] paramsArray = params.split(" ");
-        String subParams = String.join(" ", params.replace(paramsArray[0] + " ", ""));
-        switch (paramsArray[0]){
-            case  "create" : create(subParams);break;
-            case  "get" : get(subParams);break;
-            case  "getAll" : getAll();break;
-            case  "delete" : delete(subParams);break;
-            case  "update" : update(subParams);break;
+    public void handle(String params, Consumer<Command> setActive) {
+        String[] paramsArray = params.split(" ");
+        String subParams = String.join(" ", params.replace(paramsArray[0]+ " ", ""));
+        switch (paramsArray[0]) {
+            case "create": create(subParams);break;
+            case "get": get(subParams);break;
+            case "getAll": getAll();break;
+            case "delete": delete(subParams);break;
+            case "update": update(subParams);break;
         }
-
     }
 
-    private void getAll() { //to get the list of all developers (the command : "developers getAll")
+    @Override
+    public void printActiveMenu() {
+        LOGGER.info("--------Category menu--------------------"+"\n" + "--------Command menu----------"+"\n" +"create--get id--getAll--delete--update");
+    }
+
+    private void getAll() { //to get the list of all developers (the command : "getAll")
         List<Developers> all =  developersDao.getAll();
 
         System.out.println("Returned " + all.size() + " developers");
@@ -38,8 +46,17 @@ public class DevelopersCommand implements Command {
 //            throwables.printStackTrace();
 //        }
     }
-    private void  update (String params){ // developers update (the command: "developers update 24 Maksym Yanov Maksymovych 25 1996-02-17 male Ukraine 4444444444 Lviv,KropuvnutskogoStr7a,ap8 1 130000.00")
-        String [] paramsArray = params.split(" ");
+    private  void  get(String subParams) { // select developers by id (the command: "get 22")
+        String[] paramsArray = subParams.split(" ");
+        Optional<Developers> developers = developersDao.get(Long.parseLong(paramsArray[0]));
+        if (developers.isPresent()) {
+            System.out.println(developers.get());
+        } else {
+            System.out.println("developer with id " + paramsArray[0] + " is not found");
+        }
+    }
+    private void  update (String subParams){ // developers update (the command: " update 24 Maksym Yanov Maksymovych 25 1996-02-17 male Ukraine 4444444444 Lviv,KropuvnutskogoStr7a,ap8 1 130000.00")
+        String [] paramsArray = subParams.split(" ");
         Optional<Developers> optionalDevelopers =  developersDao.get(Long.parseLong(paramsArray[0]));
         if (optionalDevelopers.isPresent()){
             Developers developers = optionalDevelopers.get();
@@ -61,8 +78,8 @@ public class DevelopersCommand implements Command {
 
     }
 
-    private void  create(String params){ //developers create (the command : "developers create Ekateryna Klynskaya Alexandrovna 38 1983-03-23 female Poland 1238569784 02131,Gasheka25,ap21 1 80000.00")
-        String [] paramsArray = params.split(" ");
+    private void  create(String subParams){ //developers create (the command : " create Ekateryna Klynskaya Alexandrovna 38 1983-03-23 female Poland 1238569784 02131,Gasheka25,ap21 1 80000.00")
+        String [] paramsArray = subParams.split(" ");
         Developers developers = new Developers();
         developers.setName(paramsArray[0]);
         developers.setFirst_name(paramsArray[1]);
@@ -78,17 +95,10 @@ public class DevelopersCommand implements Command {
         developersDao.create(developers);
     }
 
-    private void  get(String params){ // select developers from id (the command: "developers get 22")
-        String [] paramsArray = params.split(" ");
-        Optional<Developers> developers =  developersDao.get(Long.parseLong(paramsArray[0]));
-        if (developers.isPresent()){
-            System.out.println(developers.get());
-        }else{
-            System.out.println("developer with id " + paramsArray[0] + " is not found");
-        }
-    }
-    private void  delete(String params){ //delete from developers (the command: "developers delete 58")
-        String [] paramsArray = params.split(" ");
+
+
+    private void  delete(String subParams){ //delete from developers by id (the command: " delete 59")
+        String [] paramsArray = subParams.split(" ");
         Optional<Developers> developers =  developersDao.get(Long.parseLong(paramsArray[0]));
         if (developers.isPresent()){
             developersDao.delete(developers.get());
