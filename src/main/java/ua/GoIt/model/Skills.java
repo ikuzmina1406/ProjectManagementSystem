@@ -4,13 +4,18 @@ package ua.GoIt.model;
 import ua.GoIt.dao.Identity;
 
 public class Skills implements Identity {
-    private  Long id;
-    private String  branch;
-    private  String  level;
+    private Long id;
+    private String branch;
+    private String level;
 
-    @Override
+
     public long getId() {
         return id;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     public void setId(Long id) {

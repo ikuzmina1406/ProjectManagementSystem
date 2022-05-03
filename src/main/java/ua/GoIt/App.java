@@ -5,16 +5,15 @@ import org.apache.logging.log4j.Logger;
 import ua.GoIt.config.DbMigration;
 import ua.GoIt.console.CommandHandler;
 
+import java.sql.SQLException;
 import java.util.Scanner;
-
-
 
 
 public class App {
 
     private static final Logger LOGGER = LogManager.getLogger(App.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         LOGGER.debug("start application");
         DbMigration.migrate();
 
@@ -24,7 +23,7 @@ public class App {
 
     }
 
-    public static void runMainApp() {
+    public static void runMainApp() throws SQLException {
         CommandHandler commandHandler = new CommandHandler();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {

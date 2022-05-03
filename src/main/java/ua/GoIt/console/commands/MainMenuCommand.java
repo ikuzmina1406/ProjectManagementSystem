@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.GoIt.console.Command;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -16,7 +17,9 @@ public class MainMenuCommand implements Command {
             "developers", new DevelopersCommand(),
             "skills", new SkillsCommand(),
             "projects", new ProjectsCommand(),
-            "customers", new CustomersCommand()
+            "customers", new CustomersCommand(),
+            "companies", new CompaniesCommand(),
+            "functional", new CommandFunctional()
     );
 
     @Override
@@ -25,15 +28,19 @@ public class MainMenuCommand implements Command {
         commandString.map(commands::get)
                 .ifPresent(command -> {
                     setActive.accept(command);
-                    command.handle(params.replace(commandString.get(),
-                            "").trim(), setActive);
+                    try {
+                        command.handle(params.replace(commandString.get(),
+                                "").trim(), setActive);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 });
     }
 
     @Override
     public void printActiveMenu() {
-        LOGGER.info("---------Main menu----------");
-        LOGGER.info("Command list: " + this.commands.keySet());
-        LOGGER.info("---------close console - exit----------");
+        LOGGER.info("-----------------------------Main menu------------------------------");
+        LOGGER.info("Command list: " + this.commands.keySet() + "\n" + "                                                                                          create--read--update--delete--get" + "\n" + "                                                                                                 " + "functional - доп операции" );
+        LOGGER.info("          -------------------close console - exit--------------------");
     }
 }

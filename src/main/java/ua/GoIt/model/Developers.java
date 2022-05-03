@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 
-public class Developers  implements Identity {
+public class Developers implements Identity {
     private long id;
     private String name;
     private String first_name;

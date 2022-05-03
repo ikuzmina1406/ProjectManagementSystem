@@ -8,20 +8,13 @@ import java.sql.Date;
 
 public class Projects implements Identity {
     private Long id;
-    private  String name;
-    private  String info;
+    private String name;
+    private String info;
     private int status;
     private BigDecimal cost;
+    private Date date_creation;
 
-    private Date dateCreation;
 
-    public Date getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
-    }
 
 
     public long getId() {
@@ -62,6 +55,14 @@ public class Projects implements Identity {
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+
+    }
+    public Date getDate_creation() {
+        return date_creation;
+    }
+
+    public void setDate_creation(Date date_creation) {
+        this.date_creation = date_creation;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Projects implements Identity {
                 ", info='" + info + '\'' +
                 ", status=" + status +
                 ", cost=" + cost +
-                ", dateCreation=" + dateCreation +
+                ", dateCreation=" + date_creation +
                 '}';
     }
 }

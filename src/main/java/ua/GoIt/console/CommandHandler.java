@@ -1,13 +1,11 @@
 package ua.GoIt.console;
 
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.GoIt.console.commands.*;
+import ua.GoIt.console.commands.MainMenuCommand;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 
 import static ua.GoIt.console.Command.pattern;
@@ -23,15 +21,15 @@ public class CommandHandler {
         this.activeMenu.printActiveMenu();
     }
 
-    public void handleCommand(String params) {
+    public void handleCommand(String params) throws SQLException {
         Matcher matcher = pattern.matcher(params);
         if (matcher.find()) {
             String command = matcher.group();
-            if ("exit".equalsIgnoreCase(command)){
+            if ("exit".equalsIgnoreCase(command)) {
                 System.exit(0);
             } else if ("active".equalsIgnoreCase(command)) {
                 this.activeMenu.printActiveMenu();
-            }else if ("main".equalsIgnoreCase(command)){
+            } else if ("main".equalsIgnoreCase(command)) {
                 this.activeMenu = mainMenu;
                 this.activeMenu.printActiveMenu();
             } else {
@@ -41,7 +39,7 @@ public class CommandHandler {
                 });
             }
         } else {
-            LOGGER.warn("Empty command");
+            LOGGER.warn("EMPTY COMMAND");
         }
     }
 }

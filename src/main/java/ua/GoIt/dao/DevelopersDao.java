@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class DevelopersDao extends AbstractDao<Developers> {
-    private static  final Logger LOGGER = LogManager.getLogger(DevelopersDao.class);
+    private static final Logger LOGGER = LogManager.getLogger(DevelopersDao.class);
+
     @Override
     Developers mapToEntity(ResultSet resultSet) throws SQLException {
         Developers developers = new Developers();
@@ -28,9 +29,10 @@ public class DevelopersDao extends AbstractDao<Developers> {
         return developers;
     }
 
+
     @Override
     public Optional<Developers> create(Developers developers) {
-        String sql = "insert into developers(name,first_name, last_name, age,birthday, sex,country, state_code, address, status,salary) values (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO developers(name,first_name, last_name, age,birthday, sex,country, state_code, address, status,salary) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 
         PgUtil.executeWithPrepareStatement(sql, ps -> {
@@ -46,22 +48,37 @@ public class DevelopersDao extends AbstractDao<Developers> {
             ps.setInt(10, developers.getStatus());
             ps.setBigDecimal(11, developers.getSalary());
         });
-        LOGGER.info(" created records ");
+        LOGGER.info(" CREATED RECORDS ");
         return Optional.empty();
     }
 
     @Override
     public void update(Developers developers) {
-        String sql = "update developers set first_name = ? where id = ?";
+        String sql = "UPDATE developers SET name = ? ,first_name= ?, last_name= ?, age= ?,birthday= ?, sex= ?,country= ?, state_code= ?, address= ?, status= ?,salary= ? WHERE id = ?";
 
         PgUtil.executeWithPrepareStatement(sql, ps -> {
-            ps.setString(1, developers.getFirst_name());
 
-            ps.setLong(2, developers.getId());
+            ps.setString(1, developers.getName());
+            ps.setString(2, developers.getFirst_name());
+            ps.setString(3, developers.getLast_name());
+            ps.setInt(4, developers.getAge());
+            ps.setDate(5, developers.getBirthday());
+            ps.setString(6, developers.getSex());
+            ps.setString(7, developers.getCountry());
+            ps.setLong(8, developers.getState_code());
+            ps.setString(9, developers.getAddress());
+            ps.setInt(10, developers.getStatus());
+            ps.setBigDecimal(11, developers.getSalary());
+            ps.setLong(12, developers.getId());
         });
-        LOGGER.info(" updated records ");
+        LOGGER.info(" UPDATED RECORDS ");
 
     }
 
-    String getTableName(){return " developers ";}
+
+    String getTableName() {
+        return " developers ";
+    }
+
+
 }
